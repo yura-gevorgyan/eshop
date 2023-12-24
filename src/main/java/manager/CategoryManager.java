@@ -80,12 +80,6 @@ public class CategoryManager {
     }
 
     public void deleteCategoryById(int id) {
-        Category categoryById = getCategoryById(id);
-
-        if (categoryById == null) {
-            System.out.println("Category with " + id + " ID exists !!!");
-            return;
-        }
 
         String sql = "DELETE  FROM category WHERE id =" + id;
         try (Statement statement = connection.createStatement()) {
@@ -94,4 +88,5 @@ public class CategoryManager {
             e.printStackTrace();
         }
     }
+
 }

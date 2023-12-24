@@ -170,4 +170,44 @@ public class ProductManager {
 
         }
     }
+
+    public List<Product> getProductsByID(int id) {
+        String sql = "SELECT  * FROM product WHERE category_id =" + id;
+
+        List<Product> products = new ArrayList<>();
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                double price = resultSet.getDouble("price");
+                int quantity = resultSet.getInt("quantity");
+                int categoryId = resultSet.getInt("category_id");
+
+                Category categoryById = categoryManager.getCategoryById(categoryId);
+
+                if (categoryById != null) {
+                    Product product = new Product(id, name, description, price, quantity, categoryById);
+                    products.add(product);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public void deleteProductByCategoryId(int id) {
+        String sql = "DELETE FROM product WHERE category_id =" + id;
+
+        try (Statement statement = connection.createStatement()) {
+
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

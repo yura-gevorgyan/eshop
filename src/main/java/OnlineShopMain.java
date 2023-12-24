@@ -175,11 +175,31 @@ public class OnlineShopMain implements Command {
             System.out.println("Please choose CATEGORY BY ID");
             int id = Integer.parseInt(SCANNER.nextLine());
 
-            CATEGORY_MANAGER.deleteCategoryById(id);
+            Category categoryById = CATEGORY_MANAGER.getCategoryById(id);
+
+            if (categoryById != null) {
+                List<Product> productsByID = PRODUCT_MANAGER.getProductsByID(categoryById.getId());
+                if (!productsByID.isEmpty()) {
+                    System.out.println("Are You sure to delete All Products with " + categoryById.getName());
+                    System.out.println("Yes/No");
+
+                    String answer = SCANNER.nextLine();
+                    if (answer.equalsIgnoreCase("yes")){
+                        PRODUCT_MANAGER.deleteProductByCategoryId(categoryById.getId());
+                        CATEGORY_MANAGER.deleteCategoryById(id);
+                    }
+
+                }
+
+            } else {
+                System.out.println("Category with " + id + " ID exists !!!");
+            }
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
     }
+
 
     private static void editCategoryById() {
         List<Category> allCategories = CATEGORY_MANAGER.getAllCategories();
