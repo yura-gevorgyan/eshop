@@ -70,7 +70,7 @@ public class OnlineShopMain implements Command {
 
             Product productById = PRODUCT_MANAGER.getProductById(id);
 
-            if (productById != null){
+            if (productById != null) {
                 PRODUCT_MANAGER.deleteProduct(productById);
             }
 
@@ -170,10 +170,15 @@ public class OnlineShopMain implements Command {
             System.out.println(allCategory);
         }
 
-        System.out.println("Please choose CATEGORY BY ID");
-        int id = Integer.parseInt(SCANNER.nextLine());
+        try {
 
-        CATEGORY_MANAGER.deleteCategoryById(id);
+            System.out.println("Please choose CATEGORY BY ID");
+            int id = Integer.parseInt(SCANNER.nextLine());
+
+            CATEGORY_MANAGER.deleteCategoryById(id);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void editCategoryById() {
@@ -182,19 +187,25 @@ public class OnlineShopMain implements Command {
         for (Category allCategory : allCategories) {
             System.out.println(allCategory);
         }
+        try {
 
-        System.out.println("Please choose CATEGORY BY ID");
-        int id = Integer.parseInt(SCANNER.nextLine());
 
-        Category categoryById = CATEGORY_MANAGER.getCategoryById(id);
-        if (categoryById != null) {
-            System.out.println("Please input NEW NAME");
-            String name = SCANNER.nextLine();
+            System.out.println("Please choose CATEGORY BY ID");
+            int id = Integer.parseInt(SCANNER.nextLine());
 
-            categoryById.setName(name);
-            CATEGORY_MANAGER.editCategory(categoryById);
+            Category categoryById = CATEGORY_MANAGER.getCategoryById(id);
+            if (categoryById != null) {
+                System.out.println("Please input NEW NAME");
+                String name = SCANNER.nextLine();
+
+                categoryById.setName(name);
+                CATEGORY_MANAGER.editCategory(categoryById);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
+
 
     private static void addCategory() {
 
